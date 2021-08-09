@@ -1,0 +1,26 @@
+{
+  "name": "permissive-email-validate",
+  "version": "0.1.0",
+  "description": "A permissive email validator, whose goal is to detect all valid email adresses, including internationalised ones, while rejecting clearly incorrect addresses",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dawidl022/permissive-email-validate.git"
+  },
+  "keywords": [
+    "email",
+    "regex",
+    "validate",
+    "permissive",
+    "international"
+  ],
+  "author": "dawidl022",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dawidl022/permissive-email-validate/issues"
+  },
+  "homepage": "https://github.com/dawidl022/permissive-email-validate#readme"
+}
