@@ -188,7 +188,7 @@ describe("negative validateEmail", function() {
     assert(!validateEmail(address));
   })
 
-  it("should not pass with escapades characters outside of quotes", function() {
+  it("should not pass with escaped characters outside of quotes", function() {
     let address = String.raw`this\ still\"not\\allowed@example.com`
     assert(!validateEmail(address));
   })
