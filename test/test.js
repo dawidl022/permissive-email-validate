@@ -90,6 +90,11 @@ describe("positive validateEmail", function() {
     assert(validateEmail(address));
   })
 
+  it("should pass with underscores in local part", function() {
+    let address = "my_awesome_address@example.org"
+    assert(validateEmail(address));
+  })
+
   it("should pass with domain as IPv4 address", function() {
     let address = "jsmith@[192.168.2.1]";
     assert(validateEmail(address));
