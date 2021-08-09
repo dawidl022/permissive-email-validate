@@ -49,7 +49,7 @@ describe("positive validateEmail", function() {
     assert(validateEmail(address));
   })
 
-  it("it should pass with slash in local part", function() {
+  it("should pass with slash in local part", function() {
     let address = "test/test@test.com";
     assert(validateEmail(address));
   })
@@ -115,6 +115,16 @@ describe("positive validateEmail", function() {
     })
   })
 
+  it("should pass with punnycode in domain part", function() {
+    let address = "address@xn--srensen-90a.example.com";
+    assert(validateEmail(address))
+  })
+
+  it("should pass with punnycode in TLD", function() {
+    let address = "address@example.xn--w4r85el8fhu5dnra";
+    assert(validateEmail(address))
+  })
+
 });
 
 describe("international validateEmail", function() {
@@ -149,4 +159,114 @@ describe("international validateEmail", function() {
     assert(validateEmail(address));
   });
 
+});
+
+describe("negative validateEmail", function() {
+
+  it("should not pass without @ symbol", function() {
+    let address = "Abc.example.com";
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with multiple @ symbols outside of quotes", function() {
+    let address = "A@b@c@example.com";
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with special characters disallowed outside of quotes", function() {
+    let address = String.raw`a"b(c)d,e:f;g<h>i[j\k]l@example.com`;
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with both quoted and unquoted local part", function() {
+    let address = 'just"not"right@example.com';
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with spaces, quotes and backslash characters outside of quotes", function() {
+    let address = String.raw`this is"not\allowed@example.com`;
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with escapades characters outside of quotes", function() {
+    let address = String.raw`this\ still\"not\\allowed@example.com`
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with local part longer than 64 characters", function() {
+    let address = "1234567890123456789012345678901234567890123456789012345678901234+x@example.com";
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with underscores in domain part", function() {
+    let address = "i_like_underscore@but_its_not_allowed_in_this_part.example.com";
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with icon characters", function() {
+    let address = "QA[icon]CHOCOLATE[icon]@test.com";
+    assert(!validateEmail(address));
+  })
+
+  it("should not pass with trailing dash in domain part", function() {
+    let address = "my@example-"
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with leading dash in domain part", function() {
+    let address = "my@-example.com"
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with trailing dash in subdomain", function() {
+    let address = "my@example-.com"
+    assert(!validateEmail(address));
+  });
+  
+  it("should not pass with leading dash in subdomain", function() {
+    let address = "my@good-.example.com";
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with leading dot in local part", function() {
+    let address = ".my-amazing@example.com"
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with trailing dot in local part", function() {
+    let address = "my-amazing.@example.com"
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with consecutive dots outside of quotes", function() {
+    let addresses = ["my..amazing@example.com", "my...amazing@example.com"]
+    addresses.forEach(function(address) {
+      assert(!validateEmail(address));
+    });
+  });
+
+  it("should not pass with leading dot in domain part", function() {
+    let address = "myamazing@.example.com"
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with trailing dot in domain part", function() {
+    let address = "myamazing@example.com."
+    assert(!validateEmail(address));
+  });
+
+  it("should not pass with consecutive dots in domain part", function() {
+    let addresses = ["myamazing@exa..mple.com", "myamazing@example...com"]
+    addresses.forEach(function(address) {
+      assert(!validateEmail(address));
+    });
+  });
+
+  it("should not pass with all-numeric TLD", function() {
+    let addresses = ["johndoe@4278942", "johndeoe@example.21443"];
+    addresses.forEach(function(address) {
+      assert(!validateEmail(address));
+    });
+  });
+  
 })

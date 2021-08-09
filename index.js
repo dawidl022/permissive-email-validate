@@ -1,6 +1,6 @@
 module.exports = validateEmail;
 
 function validateEmail(emailAddress) {
-  emailEx = /^[^.](.*[^.])?@[^.-](.*[^.-])?(\.[^.-](.*[^.-])?)*$/;
+  const emailEx = /^[^.](.*[^.])?@[^.-](.*[^.-])?(\.[^.-](.*[^.-])?)*$/;
   return !!emailAddress.match(emailEx);
 }
