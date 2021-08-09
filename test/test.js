@@ -90,6 +90,31 @@ describe("positive validateEmail", function() {
     assert(validateEmail(address));
   })
 
+  it("should pass with domain as IPv4 address", function() {
+    let address = "jsmith@[192.168.2.1]";
+    assert(validateEmail(address));
+  });
+
+  it("should pass with domain as IPv6 address", function() {
+    let address = "jsmith@[IPv6:2001:db8::1]";
+    assert(validateEmail(address));
+  });
+
+  it("should allow comments in local part", function() {
+    let address = "john(hello @(world!) )@example.com";
+    assert(validateEmail(address));
+  })
+
+  it("should allow comments in domain part", function() {
+    let addresses = [
+      "john.smith@(comment)example.com",
+      "john.smith@example.com(comment)"
+    ];
+    addresses.forEach(function(address) {
+      assert(validateEmail(address));
+    })
+  })
+
 });
 
 describe("international validateEmail", function() {
