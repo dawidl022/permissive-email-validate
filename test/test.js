@@ -91,3 +91,37 @@ describe("positive validateEmail", function() {
   })
 
 });
+
+describe("international validateEmail", function() {
+
+  it("should pass with latin diacritics", function() {
+    let address = "Pelé@example.com";
+    assert(validateEmail(address));
+  });
+
+  it("should pass with greek alphabet", function() {
+    let address = "δοκιμή@παράδειγμα.δοκιμή";
+    assert(validateEmail(address));
+  });
+
+  it("should pass with chinese characters", function() {
+    let address = "我買@屋企.香港";
+    assert(validateEmail(address));
+  });
+
+  it("should pass with japanese characters", function() {
+    let address = "二ノ宮@黒川.日本";
+    assert(validateEmail(address))
+  });
+
+  it("should pass with cyrylic alphabet", function() {
+    let address = "медведь@с-балалайкой.рф";
+    assert(validateEmail(address));
+  });
+
+  it("should pass with devanagari characters", function() {
+    let address = "संपर्क@डाटामेल.भारत";
+    assert(validateEmail(address));
+  });
+
+})
